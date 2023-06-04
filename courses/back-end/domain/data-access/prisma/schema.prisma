@@ -14,6 +14,38 @@ model Lecturer {
   expertise String
   userId    Int        @unique
   user      User       @relation(fields: [userId], references: [id])
+  courses   Course[]
+}
+
+model Enrollment {
+  id        Int        @id @default(autoincrement())
+  studentId Int        @unique
+  student    Student   @relation(fields: [studentId], references: [id])
+  courseId   Int       @unique
+  course     Course    @relation(fields: [courseId], references: [id])
+  startDate  DateTime  @default(now())
+  location   String
+
+
+}
+
+model Student {
+  id        Int        @id @default(autoincrement())
+  study     String
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id])
+  createdAt DateTime   @default(now())
+  enrollments Enrollment[]
+
+}
+
+model Course {
+  id        Int        @id @default(autoincrement())
+  name      String
+  credits   Int
+  semester  Int
+  enrollments Enrollment[]
+  lecturers Lecturer[]
 }
 
 model User {
@@ -24,4 +56,5 @@ model User {
   email     String    @unique
   password  String
   lecturer  Lecturer?
+  student   Student?
 }

@@ -7,6 +7,9 @@ import swaggerUi from 'swagger-ui-express';
 import { expressjwt } from 'express-jwt';
 import { userRouter } from './controller/user.routes';
 import { lecturerRouter } from './controller/lecturer.routes';
+import { studentRouter } from './controller/student.routes';
+import { courseRouter } from './controller/course.routes';
+import { enrollmentRouter } from './controller/enrollment.routes';
 
 const app = express();
 dotenv.config();
@@ -32,14 +35,15 @@ const swaggerOpts = {
     apis: ['./controller/*.routes.ts'],
 };
 
-app.use(
-    expressjwt({secret: jwtSecret, algorithms: ['HS256']}).unless({
-    path:[/^\/api-docs\/.*/, '/users/login', '/users/signup', '/status']
-    })
-  )
+
 
 app.use('/users', userRouter)
 app.use('/lecturers', lecturerRouter)
+app.use('/enrollments', enrollmentRouter)
+app.use('/courses', courseRouter)
+app.use('/students', studentRouter)
+
+
 
 
 
